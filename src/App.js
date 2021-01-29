@@ -1,15 +1,18 @@
+import { useState } from 'react';
 import logo from './logo.svg';
 import styles from './App.module.css';
 
 export function App() {
+  const [showLogo, setShowLogo] = useState(true);
   const handleClick = (event) => {
-    alert("Вы нажали на ссылку")
+    event.preventDefault()
+    setShowLogo((prevShowLogo) => !prevShowLogo)
   }
 
   return (
     <header className={styles.app}>
       <div className={styles.logo}>
-        <img src={logo} alt="logo" />
+        {showLogo && <img src={logo} alt="logo" />}
       </div>
       <a onClick={handleClick} href="#">
         Переключить логотип
