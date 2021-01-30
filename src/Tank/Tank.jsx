@@ -18,8 +18,7 @@ const POSITIONS = {
 }
 
 export function Tank() {
-    const [position, setPosition] = useState({ x: 5, y: 0 })
-    const [rotate, setRotate] = useState("right")
+    const [tanks, setTanks] = useState([])
 
     useEffect(() => {
         function onKeyDown(event) {
@@ -41,11 +40,8 @@ export function Tank() {
         function onMessage(message) {
             const data = JSON.parse(message.data);
 
-            if (data.type === "refresh") {
-                const tank = data.tanks[tankId];
-
-                setPosition({x: tank.x, y: tank.y});
-                setRotate(tank.position)
+            if (data.type === "refresh" && data.tanks) {
+                setTanks(Object.values(data.tanks));
             }
         }
         ws.addEventListener("message", onMessage)
@@ -53,12 +49,12 @@ export function Tank() {
 
 
 
-    return <TankIcon
+    return tanks.map(tank => <TankIcon
         className={styles.tank}
         style={{
-            top: position.y * 24,
-            left: position.x * 24,
-            transform: `rotate(${rotates[rotate]}deg)`
+            top: tank.y * 24,
+            left: tank.x * 24,
+            transform: `rotate(${rotates[tank.position]}deg)`
         }}
-    />
+    />)
 }
