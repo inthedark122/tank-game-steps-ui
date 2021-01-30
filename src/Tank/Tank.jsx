@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-import {ws} from '../ws/ws';
+import {ws, tankId} from '../ws/ws';
 import { ReactComponent as TankIcon } from '../icons/tank.svg'
 import styles from './Tank.module.css'
 
@@ -32,6 +32,21 @@ export function Tank() {
 
         window.addEventListener("keydown", onKeyDown)
     }, [])
+
+    useEffect(() => {
+        function onMessage(message) {
+            const data = JSON.parse(message.data);
+
+            if (data.type === "refresh") {
+                const tank = data.tanks[tankId];
+
+                setPosition({x: tank.x, y: tank.y});
+                setRotate(tank.position)
+            }
+        }
+        ws.addEventListener("message", onMessage)
+    }, [])
+
 
 
     return <TankIcon
