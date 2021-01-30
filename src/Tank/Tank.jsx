@@ -28,6 +28,10 @@ export function Tank() {
             if (key in POSITIONS) {
                 ws.send(JSON.stringify({type: "move", position: POSITIONS[key]}))
             }
+
+            if (key === " ") {
+                ws.send(JSON.stringify({type: "shot"}))
+            }
         }
 
         window.addEventListener("keydown", onKeyDown)
