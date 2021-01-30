@@ -1,6 +1,6 @@
 import './ws/ws'
 import {Grid} from './Grid/Grid';
-import { ReactComponent as Tank } from './icons/tank.svg'
+import {Tank} from './Tank/Tank'
 
 export function App() {
   return (
